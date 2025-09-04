@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>实验室电脑预约系统</title>
+    <title>Lab Computer Reservations | 研究室コンピューター予約</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,138 +12,353 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --primary-color: #5B6EF8;
+            --secondary-color: #F8F9FD;
+            --text-dark: #1A1D29;
+            --text-gray: #6B7280;
+            --border-color: #E5E7EB;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #FAFBFC;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
         
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header h1 {
-            color: #333;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .header p {
-            color: #666;
-            text-align: center;
-            font-size: 1.1em;
-        }
-        
-        .status-bar {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .computer-status {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .computer-status:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .computer-name {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        
-        .status-available {
-            background: #4CAF50;
-        }
-        
-        .status-occupied {
-            background: #f44336;
-        }
-        
-        .calendar-tabs {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .tab-buttons {
+        .app-container {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            min-height: 100vh;
         }
         
-        .tab-button {
-            padding: 10px 20px;
-            border: none;
-            background: #f0f0f0;
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .nav-section {
+            margin-bottom: 32px;
+        }
+        
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s;
-            flex: 1;
-            min-width: 150px;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+            text-decoration: none;
+            color: var(--text-dark);
         }
         
-        .tab-button.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .nav-item:hover {
+            background: var(--secondary-color);
+        }
+        
+        .nav-item.active {
+            background: var(--primary-color);
             color: white;
         }
         
-        .tab-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
         }
         
-        .calendar-container {
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 0;
+        }
+        
+        /* Header */
+        .header {
+            height: var(--header-height);
             background: white;
-            border-radius: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .header-button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .header-button:hover {
+            background: var(--secondary-color);
+        }
+        
+        .add-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .add-button:hover {
+            background: #4C5EE8;
+        }
+        
+        .language-switch {
+            display: flex;
+            gap: 4px;
+            background: var(--secondary-color);
+            padding: 4px;
+            border-radius: 8px;
+        }
+        
+        .lang-btn {
+            padding: 6px 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .lang-btn.active {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        /* Content Area */
+        .content {
+            padding: 32px;
+        }
+        
+        /* Calendar Controls */
+        .calendar-controls {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .date-navigation {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .date-display {
+            font-size: 18px;
+            font-weight: 600;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .nav-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .nav-btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        .view-tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--secondary-color);
+            padding: 4px;
+            border-radius: 8px;
+        }
+        
+        .view-tab {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .view-tab.active {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        /* Computer Status Cards */
+        .computers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .computer-card {
+            background: white;
+            border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .computer-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .computer-card.selected {
+            border: 2px solid var(--primary-color);
+        }
+        
+        .computer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .computer-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .status-available {
+            background: var(--success-color);
+        }
+        
+        .status-busy {
+            background: var(--danger-color);
+        }
+        
+        .status-maintenance {
+            background: var(--warning-color);
+        }
+        
+        .computer-status {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+        }
+        
+        .current-user {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        /* Calendar Container */
+        .calendar-wrapper {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
         .calendar-frame {
             width: 100%;
             height: 600px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             display: none;
         }
         
@@ -150,208 +366,406 @@
             display: block;
         }
         
-        .instructions {
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
             background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
-        .instructions h2 {
-            color: #333;
-            margin-bottom: 20px;
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 8px;
         }
         
-        .instructions ol {
-            color: #666;
-            line-height: 1.8;
-            padding-left: 20px;
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
         }
         
-        .instructions li {
-            margin-bottom: 10px;
+        .stat-change {
+            font-size: 13px;
+            color: var(--success-color);
         }
         
-        .instructions code {
-            background: #f0f0f0;
-            padding: 2px 6px;
-            border-radius: 3px;
-            color: #d63384;
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .computers-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .tab-buttons {
+            .calendar-controls {
                 flex-direction: column;
+                gap: 16px;
             }
             
-            .tab-button {
-                width: 100%;
+            .header {
+                padding: 0 16px;
             }
             
-            .calendar-frame {
-                height: 400px;
+            .content {
+                padding: 16px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🖥️ 实验室电脑预约系统</h1>
-            <p>查看和预约实验室5台电脑的使用时间</p>
-        </div>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                <div class="logo-text">Lab Computer</div>
+            </div>
+            
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <a href="#" class="nav-item active">
+                        <span class="nav-icon">📅</span>
+                        <span data-lang="reservations">Reservations</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon">📊</span>
+                        <span data-lang="dashboard">Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon">💻</span>
+                        <span data-lang="computers">Computers</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Management</div>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon">👥</span>
+                        <span data-lang="users">Users</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon">📈</span>
+                        <span data-lang="reports">Reports</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <span class="nav-icon">⚙️</span>
+                        <span data-lang="settings">Settings</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
         
-        <div class="status-bar">
-            <h2 style="margin-bottom: 15px; color: #333;">当前状态</h2>
-            <div class="status-grid">
-                <div class="computer-status">
-                    <div class="computer-name">电脑 1</div>
-                    <div><span class="status-indicator status-available"></span>空闲</div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="page-title" data-lang="pageTitle">Computer Reservations</h1>
                 </div>
-                <div class="computer-status">
-                    <div class="computer-name">电脑 2</div>
-                    <div><span class="status-indicator status-available"></span>空闲</div>
+                <div class="header-right">
+                    <div class="language-switch">
+                        <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                        <button class="lang-btn" onclick="setLanguage('ja')">日本語</button>
+                    </div>
+                    <button class="header-button">
+                        <span>📅</span>
+                        <span data-lang="today">Today</span>
+                    </button>
+                    <button class="header-button add-button">
+                        <span>+</span>
+                        <span data-lang="newReservation">New Reservation</span>
+                    </button>
                 </div>
-                <div class="computer-status">
-                    <div class="computer-name">电脑 3</div>
-                    <div><span class="status-indicator status-available"></span>空闲</div>
+            </header>
+            
+            <!-- Content -->
+            <div class="content">
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label" data-lang="available">Available</div>
+                        <div class="stat-value" id="availableCount">3</div>
+                        <div class="stat-change">↑ 2 from yesterday</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label" data-lang="inUse">In Use</div>
+                        <div class="stat-value" id="inUseCount">2</div>
+                        <div class="stat-change">→ Same as yesterday</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label" data-lang="todayReservations">Today's Reservations</div>
+                        <div class="stat-value" id="todayCount">8</div>
+                        <div class="stat-change">↑ 3 from last week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label" data-lang="weeklyHours">Weekly Hours</div>
+                        <div class="stat-value" id="weeklyHours">127</div>
+                        <div class="stat-change">↑ 15% increase</div>
+                    </div>
                 </div>
-                <div class="computer-status">
-                    <div class="computer-name">电脑 4</div>
-                    <div><span class="status-indicator status-available"></span>空闲</div>
+                
+                <!-- Calendar Controls -->
+                <div class="calendar-controls">
+                    <div class="date-navigation">
+                        <button class="nav-btn" onclick="previousDay()">←</button>
+                        <div class="date-display" id="currentDate">Friday, November 16, 2024</div>
+                        <button class="nav-btn" onclick="nextDay()">→</button>
+                    </div>
+                    <div class="view-tabs">
+                        <button class="view-tab active" onclick="setView('day')" data-lang="day">Day</button>
+                        <button class="view-tab" onclick="setView('week')" data-lang="week">Week</button>
+                        <button class="view-tab" onclick="setView('month')" data-lang="month">Month</button>
+                    </div>
                 </div>
-                <div class="computer-status">
-                    <div class="computer-name">电脑 5</div>
-                    <div><span class="status-indicator status-available"></span>空闲</div>
+                
+                <!-- Computer Status Cards -->
+                <div class="computers-grid">
+                    <div class="computer-card selected" onclick="selectComputer(1)">
+                        <div class="computer-header">
+                            <span class="computer-name">Computer 1</span>
+                            <span class="status-dot status-available"></span>
+                        </div>
+                        <div class="computer-status" data-lang="statusAvailable">Available</div>
+                        <div class="current-user">-</div>
+                    </div>
+                    <div class="computer-card" onclick="selectComputer(2)">
+                        <div class="computer-header">
+                            <span class="computer-name">Computer 2</span>
+                            <span class="status-dot status-busy"></span>
+                        </div>
+                        <div class="computer-status" data-lang="statusBusy">In Use</div>
+                        <div class="current-user">John Doe</div>
+                    </div>
+                    <div class="computer-card" onclick="selectComputer(3)">
+                        <div class="computer-header">
+                            <span class="computer-name">Computer 3</span>
+                            <span class="status-dot status-available"></span>
+                        </div>
+                        <div class="computer-status" data-lang="statusAvailable">Available</div>
+                        <div class="current-user">-</div>
+                    </div>
+                    <div class="computer-card" onclick="selectComputer(4)">
+                        <div class="computer-header">
+                            <span class="computer-name">Computer 4</span>
+                            <span class="status-dot status-busy"></span>
+                        </div>
+                        <div class="computer-status" data-lang="statusBusy">In Use</div>
+                        <div class="current-user">Jane Smith</div>
+                    </div>
+                    <div class="computer-card" onclick="selectComputer(5)">
+                        <div class="computer-header">
+                            <span class="computer-name">Computer 5</span>
+                            <span class="status-dot status-maintenance"></span>
+                        </div>
+                        <div class="computer-status" data-lang="statusMaintenance">Maintenance</div>
+                        <div class="current-user">-</div>
+                    </div>
+                </div>
+                
+                <!-- Calendar -->
+                <div class="calendar-wrapper">
+                    <!-- Computer 1 Calendar -->
+                    <iframe id="calendar1" 
+                            class="calendar-frame active" 
+                            src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_1&ctz=Asia/Tokyo&mode=WEEK"
+                            frameborder="0" 
+                            scrolling="no">
+                    </iframe>
+                    
+                    <!-- Computer 2 Calendar -->
+                    <iframe id="calendar2" 
+                            class="calendar-frame" 
+                            src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_2&ctz=Asia/Tokyo&mode=WEEK"
+                            frameborder="0" 
+                            scrolling="no">
+                    </iframe>
+                    
+                    <!-- Computer 3 Calendar -->
+                    <iframe id="calendar3" 
+                            class="calendar-frame" 
+                            src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_3&ctz=Asia/Tokyo&mode=WEEK"
+                            frameborder="0" 
+                            scrolling="no">
+                    </iframe>
+                    
+                    <!-- Computer 4 Calendar -->
+                    <iframe id="calendar4" 
+                            class="calendar-frame" 
+                            src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_4&ctz=Asia/Tokyo&mode=WEEK"
+                            frameborder="0" 
+                            scrolling="no">
+                    </iframe>
+                    
+                    <!-- Computer 5 Calendar -->
+                    <iframe id="calendar5" 
+                            class="calendar-frame" 
+                            src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_5&ctz=Asia/Tokyo&mode=WEEK"
+                            frameborder="0" 
+                            scrolling="no">
+                    </iframe>
                 </div>
             </div>
-        </div>
-        
-        <div class="calendar-tabs">
-            <div class="tab-buttons">
-                <button class="tab-button active" onclick="showCalendar(1)">电脑 1</button>
-                <button class="tab-button" onclick="showCalendar(2)">电脑 2</button>
-                <button class="tab-button" onclick="showCalendar(3)">电脑 3</button>
-                <button class="tab-button" onclick="showCalendar(4)">电脑 4</button>
-                <button class="tab-button" onclick="showCalendar(5)">电脑 5</button>
-            </div>
-        </div>
-        
-        <div class="calendar-container">
-            <!-- 这里需要替换为你的Google Calendar嵌入代码 -->
-            <!-- 电脑1的日历 -->
-            <iframe id="calendar1" 
-                    class="calendar-frame active" 
-                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_1&ctz=Asia/Tokyo"
-                    frameborder="0" 
-                    scrolling="no">
-            </iframe>
-            
-            <!-- 电脑2的日历 -->
-            <iframe id="calendar2" 
-                    class="calendar-frame" 
-                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_2&ctz=Asia/Tokyo"
-                    frameborder="0" 
-                    scrolling="no">
-            </iframe>
-            
-            <!-- 电脑3的日历 -->
-            <iframe id="calendar3" 
-                    class="calendar-frame" 
-                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_3&ctz=Asia/Tokyo"
-                    frameborder="0" 
-                    scrolling="no">
-            </iframe>
-            
-            <!-- 电脑4的日历 -->
-            <iframe id="calendar4" 
-                    class="calendar-frame" 
-                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_4&ctz=Asia/Tokyo"
-                    frameborder="0" 
-                    scrolling="no">
-            </iframe>
-            
-            <!-- 电脑5的日历 -->
-            <iframe id="calendar5" 
-                    class="calendar-frame" 
-                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_5&ctz=Asia/Tokyo"
-                    frameborder="0" 
-                    scrolling="no">
-            </iframe>
-        </div>
-        
-        <div class="instructions">
-            <h2>📝 配置说明</h2>
-            <ol>
-                <li><strong>创建Google Calendar：</strong>
-                    <ul>
-                        <li>登录Google Calendar</li>
-                        <li>创建5个新日历，命名为"实验室电脑1"到"实验室电脑5"</li>
-                        <li>设置不同的颜色以便区分</li>
-                    </ul>
-                </li>
-                <li><strong>获取日历ID：</strong>
-                    <ul>
-                        <li>点击日历旁的三个点 → 设置和共享</li>
-                        <li>滚动到"集成日历"部分</li>
-                        <li>复制"日历ID"</li>
-                    </ul>
-                </li>
-                <li><strong>替换日历ID：</strong>
-                    <ul>
-                        <li>将HTML文件中的 <code>YOUR_CALENDAR_ID_1</code> 等替换为实际的日历ID</li>
-                        <li>日历ID格式类似：<code>xxxxx@group.calendar.google.com</code></li>
-                    </ul>
-                </li>
-                <li><strong>设置共享权限：</strong>
-                    <ul>
-                        <li>在每个日历的设置中</li>
-                        <li>找到"与特定用户共享"</li>
-                        <li>添加实验室成员的邮箱</li>
-                        <li>设置权限为"进行更改"</li>
-                    </ul>
-                </li>
-                <li><strong>使用方法：</strong>
-                    <ul>
-                        <li>成员在预约时，在事件标题中写明自己的名字</li>
-                        <li>例如："张三 - Python编程"</li>
-                        <li>可以设置重复预约（如每周固定时间）</li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
+        </main>
     </div>
     
     <script>
-        function showCalendar(computerNum) {
-            // 隐藏所有日历
-            const calendars = document.querySelectorAll('.calendar-frame');
-            calendars.forEach(cal => cal.classList.remove('active'));
+        // Language translations
+        const translations = {
+            en: {
+                reservations: "Reservations",
+                dashboard: "Dashboard",
+                computers: "Computers",
+                users: "Users",
+                reports: "Reports",
+                settings: "Settings",
+                pageTitle: "Computer Reservations",
+                today: "Today",
+                newReservation: "New Reservation",
+                available: "Available",
+                inUse: "In Use",
+                todayReservations: "Today's Reservations",
+                weeklyHours: "Weekly Hours",
+                day: "Day",
+                week: "Week",
+                month: "Month",
+                statusAvailable: "Available",
+                statusBusy: "In Use",
+                statusMaintenance: "Maintenance"
+            },
+            ja: {
+                reservations: "予約",
+                dashboard: "ダッシュボード",
+                computers: "コンピューター",
+                users: "ユーザー",
+                reports: "レポート",
+                settings: "設定",
+                pageTitle: "コンピューター予約",
+                today: "今日",
+                newReservation: "新規予約",
+                available: "利用可能",
+                inUse: "使用中",
+                todayReservations: "本日の予約",
+                weeklyHours: "週間利用時間",
+                day: "日",
+                week: "週",
+                month: "月",
+                statusAvailable: "利用可能",
+                statusBusy: "使用中",
+                statusMaintenance: "メンテナンス中"
+            }
+        };
+        
+        let currentLanguage = 'en';
+        let selectedComputer = 1;
+        
+        // Language switching
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
             
-            // 移除所有按钮的active类
-            const buttons = document.querySelectorAll('.tab-button');
-            buttons.forEach(btn => btn.classList.remove('active'));
+            // Update all text elements
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+        }
+        
+        // Computer selection
+        function selectComputer(computerNum) {
+            selectedComputer = computerNum;
             
-            // 显示选中的日历
+            // Update selected state
+            document.querySelectorAll('.computer-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelectorAll('.computer-card')[computerNum - 1].classList.add('selected');
+            
+            // Hide all calendars
+            document.querySelectorAll('.calendar-frame').forEach(cal => {
+                cal.classList.remove('active');
+            });
+            
+            // Show selected calendar
             document.getElementById('calendar' + computerNum).classList.add('active');
+        }
+        
+        // Date navigation
+        function updateDateDisplay() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            const dateStr = currentLanguage === 'ja' 
+                ? today.toLocaleDateString('ja-JP', options)
+                : today.toLocaleDateString('en-US', options);
+            document.getElementById('currentDate').textContent = dateStr;
+        }
+        
+        function previousDay() {
+            // Implement calendar navigation
+            console.log('Previous day');
+        }
+        
+        function nextDay() {
+            // Implement calendar navigation
+            console.log('Next day');
+        }
+        
+        function setView(view) {
+            document.querySelectorAll('.view-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
             
-            // 激活对应的按钮
-            buttons[computerNum - 1].classList.add('active');
+            // Update calendar view mode
+            // This would need Google Calendar API integration for full functionality
+            console.log('View changed to:', view);
         }
         
-        // 模拟实时状态更新（实际使用时可以通过Google Calendar API获取）
-        function updateStatus() {
-            // 这里可以添加实际的状态检查逻辑
-            // 通过Google Calendar API检查当前时间是否有预约
-        }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDateDisplay();
+            
+            // Update stats periodically
+            setInterval(() => {
+                // This would fetch real data from your backend
+                updateStats();
+            }, 60000); // Update every minute
+        });
         
-        // 每分钟更新一次状态
-        setInterval(updateStatus, 60000);
+        function updateStats() {
+            // Placeholder for real-time updates
+            // Would connect to Google Calendar API to get actual data
+        }
     </script>
 </body>
 </html>
