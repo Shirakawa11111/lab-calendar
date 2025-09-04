@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验室电脑预约系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .header p {
+            color: #666;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        .status-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .computer-status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .computer-status:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .computer-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-available {
+            background: #4CAF50;
+        }
+        
+        .status-occupied {
+            background: #f44336;
+        }
+        
+        .calendar-tabs {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .calendar-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .calendar-frame {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .calendar-frame.active {
+            display: block;
+        }
+        
+        .instructions {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .instructions h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .instructions ol {
+            color: #666;
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        
+        .instructions code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #d63384;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .calendar-frame {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🖥️ 实验室电脑预约系统</h1>
+            <p>查看和预约实验室5台电脑的使用时间</p>
+        </div>
+        
+        <div class="status-bar">
+            <h2 style="margin-bottom: 15px; color: #333;">当前状态</h2>
+            <div class="status-grid">
+                <div class="computer-status">
+                    <div class="computer-name">电脑 1</div>
+                    <div><span class="status-indicator status-available"></span>空闲</div>
+                </div>
+                <div class="computer-status">
+                    <div class="computer-name">电脑 2</div>
+                    <div><span class="status-indicator status-available"></span>空闲</div>
+                </div>
+                <div class="computer-status">
+                    <div class="computer-name">电脑 3</div>
+                    <div><span class="status-indicator status-available"></span>空闲</div>
+                </div>
+                <div class="computer-status">
+                    <div class="computer-name">电脑 4</div>
+                    <div><span class="status-indicator status-available"></span>空闲</div>
+                </div>
+                <div class="computer-status">
+                    <div class="computer-name">电脑 5</div>
+                    <div><span class="status-indicator status-available"></span>空闲</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="calendar-tabs">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showCalendar(1)">电脑 1</button>
+                <button class="tab-button" onclick="showCalendar(2)">电脑 2</button>
+                <button class="tab-button" onclick="showCalendar(3)">电脑 3</button>
+                <button class="tab-button" onclick="showCalendar(4)">电脑 4</button>
+                <button class="tab-button" onclick="showCalendar(5)">电脑 5</button>
+            </div>
+        </div>
+        
+        <div class="calendar-container">
+            <!-- 这里需要替换为你的Google Calendar嵌入代码 -->
+            <!-- 电脑1的日历 -->
+            <iframe id="calendar1" 
+                    class="calendar-frame active" 
+                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_1&ctz=Asia/Tokyo"
+                    frameborder="0" 
+                    scrolling="no">
+            </iframe>
+            
+            <!-- 电脑2的日历 -->
+            <iframe id="calendar2" 
+                    class="calendar-frame" 
+                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_2&ctz=Asia/Tokyo"
+                    frameborder="0" 
+                    scrolling="no">
+            </iframe>
+            
+            <!-- 电脑3的日历 -->
+            <iframe id="calendar3" 
+                    class="calendar-frame" 
+                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_3&ctz=Asia/Tokyo"
+                    frameborder="0" 
+                    scrolling="no">
+            </iframe>
+            
+            <!-- 电脑4的日历 -->
+            <iframe id="calendar4" 
+                    class="calendar-frame" 
+                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_4&ctz=Asia/Tokyo"
+                    frameborder="0" 
+                    scrolling="no">
+            </iframe>
+            
+            <!-- 电脑5的日历 -->
+            <iframe id="calendar5" 
+                    class="calendar-frame" 
+                    src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID_5&ctz=Asia/Tokyo"
+                    frameborder="0" 
+                    scrolling="no">
+            </iframe>
+        </div>
+        
+        <div class="instructions">
+            <h2>📝 配置说明</h2>
+            <ol>
+                <li><strong>创建Google Calendar：</strong>
+                    <ul>
+                        <li>登录Google Calendar</li>
+                        <li>创建5个新日历，命名为"实验室电脑1"到"实验室电脑5"</li>
+                        <li>设置不同的颜色以便区分</li>
+                    </ul>
+                </li>
+                <li><strong>获取日历ID：</strong>
+                    <ul>
+                        <li>点击日历旁的三个点 → 设置和共享</li>
+                        <li>滚动到"集成日历"部分</li>
+                        <li>复制"日历ID"</li>
+                    </ul>
+                </li>
+                <li><strong>替换日历ID：</strong>
+                    <ul>
+                        <li>将HTML文件中的 <code>YOUR_CALENDAR_ID_1</code> 等替换为实际的日历ID</li>
+                        <li>日历ID格式类似：<code>xxxxx@group.calendar.google.com</code></li>
+                    </ul>
+                </li>
+                <li><strong>设置共享权限：</strong>
+                    <ul>
+                        <li>在每个日历的设置中</li>
+                        <li>找到"与特定用户共享"</li>
+                        <li>添加实验室成员的邮箱</li>
+                        <li>设置权限为"进行更改"</li>
+                    </ul>
+                </li>
+                <li><strong>使用方法：</strong>
+                    <ul>
+                        <li>成员在预约时，在事件标题中写明自己的名字</li>
+                        <li>例如："张三 - Python编程"</li>
+                        <li>可以设置重复预约（如每周固定时间）</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        function showCalendar(computerNum) {
+            // 隐藏所有日历
+            const calendars = document.querySelectorAll('.calendar-frame');
+            calendars.forEach(cal => cal.classList.remove('active'));
+            
+            // 移除所有按钮的active类
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // 显示选中的日历
+            document.getElementById('calendar' + computerNum).classList.add('active');
+            
+            // 激活对应的按钮
+            buttons[computerNum - 1].classList.add('active');
+        }
+        
+        // 模拟实时状态更新（实际使用时可以通过Google Calendar API获取）
+        function updateStatus() {
+            // 这里可以添加实际的状态检查逻辑
+            // 通过Google Calendar API检查当前时间是否有预约
+        }
+        
+        // 每分钟更新一次状态
+        setInterval(updateStatus, 60000);
+    </script>
+</body>
+</html>
