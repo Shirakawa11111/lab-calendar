@@ -453,29 +453,21 @@
                         <span class="nav-icon">📅</span>
                         <span data-lang="reservations">Reservations</span>
                     </a>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">📊</span>
-                        <span data-lang="dashboard">Dashboard</span>
-                    </a>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">💻</span>
-                        <span data-lang="computers">Computers</span>
+                    <a href="https://calendar.google.com" target="_blank" class="nav-item">
+                        <span class="nav-icon">🔗</span>
+                        <span data-lang="googleCalendar">Google Calendar</span>
                     </a>
                 </div>
                 
                 <div class="nav-section">
-                    <div class="nav-section-title">Management</div>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">👥</span>
-                        <span data-lang="users">Users</span>
+                    <div class="nav-section-title">Info</div>
+                    <a href="#guide" class="nav-item" onclick="showGuide()">
+                        <span class="nav-icon">📖</span>
+                        <span data-lang="howToUse">How to Use</span>
                     </a>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">📈</span>
-                        <span data-lang="reports">Reports</span>
-                    </a>
-                    <a href="#" class="nav-item">
-                        <span class="nav-icon">⚙️</span>
-                        <span data-lang="settings">Settings</span>
+                    <a href="mailto:admin@lab.titech.ac.jp" class="nav-item">
+                        <span class="nav-icon">✉️</span>
+                        <span data-lang="contact">Contact Admin</span>
                     </a>
                 </div>
             </nav>
@@ -493,13 +485,9 @@
                         <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
                         <button class="lang-btn" onclick="setLanguage('ja')">日本語</button>
                     </div>
-                    <button class="header-button">
-                        <span>📅</span>
-                        <span data-lang="today">Today</span>
-                    </button>
-                    <button class="header-button add-button">
-                        <span>+</span>
-                        <span data-lang="newReservation">New Reservation</span>
+                    <button class="header-button" onclick="window.open('https://calendar.google.com', '_blank')">
+                        <span>📝</span>
+                        <span data-lang="makeReservation">Make Reservation</span>
                     </button>
                 </div>
             </header>
@@ -639,14 +627,11 @@
         const translations = {
             en: {
                 reservations: "Reservations",
-                dashboard: "Dashboard",
-                computers: "Computers",
-                users: "Users",
-                reports: "Reports",
-                settings: "Settings",
+                googleCalendar: "Google Calendar",
+                howToUse: "How to Use",
+                contact: "Contact Admin",
                 pageTitle: "Computer Reservations",
-                today: "Today",
-                newReservation: "New Reservation",
+                makeReservation: "Make Reservation",
                 available: "Available",
                 inUse: "In Use",
                 todayReservations: "Today's Reservations",
@@ -660,14 +645,11 @@
             },
             ja: {
                 reservations: "予約",
-                dashboard: "ダッシュボード",
-                computers: "コンピューター",
-                users: "ユーザー",
-                reports: "レポート",
-                settings: "設定",
+                googleCalendar: "Googleカレンダー",
+                howToUse: "使い方",
+                contact: "管理者に連絡",
                 pageTitle: "コンピューター予約",
-                today: "今日",
-                newReservation: "新規予約",
+                makeReservation: "予約する",
                 available: "利用可能",
                 inUse: "使用中",
                 todayReservations: "本日の予約",
