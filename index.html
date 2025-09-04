@@ -442,33 +442,29 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
-                <div class="logo-icon">LC</div>
-                <div class="logo-text">Lab Computer</div>
+                <div class="logo-icon">LL</div>
+                <div class="logo-text">Lei Lab Computers</div>
             </div>
             
             <nav>
                 <div class="nav-section">
-                    <div class="nav-section-title">Main</div>
-                    <a href="#" class="nav-item active">
-                        <span class="nav-icon">📅</span>
-                        <span data-lang="reservations">Reservations</span>
-                    </a>
+                    <div class="nav-section-title">QUICK LINKS</div>
                     <a href="https://calendar.google.com" target="_blank" class="nav-item">
-                        <span class="nav-icon">🔗</span>
-                        <span data-lang="googleCalendar">Google Calendar</span>
-                    </a>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-section-title">Info</div>
-                    <a href="#guide" class="nav-item" onclick="showGuide()">
-                        <span class="nav-icon">📖</span>
-                        <span data-lang="howToUse">How to Use</span>
+                        <span class="nav-icon">📅</span>
+                        <span data-lang="openCalendar">Open Google Calendar</span>
                     </a>
                     <a href="mailto:admin@lab.titech.ac.jp" class="nav-item">
                         <span class="nav-icon">✉️</span>
                         <span data-lang="contact">Contact Admin</span>
                     </a>
+                </div>
+                
+                <div class="nav-section" style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                    <div class="nav-section-title">TIPS</div>
+                    <div style="padding: 12px; font-size: 13px; color: var(--text-gray); line-height: 1.5;">
+                        <p data-lang="tip1">📝 Click computer card to view its calendar</p>
+                        <p data-lang="tip2" style="margin-top: 8px;">🔄 Refresh page to update status</p>
+                    </div>
                 </div>
             </nav>
         </aside>
@@ -626,11 +622,9 @@
         // Language translations
         const translations = {
             en: {
-                reservations: "Reservations",
-                googleCalendar: "Google Calendar",
-                howToUse: "How to Use",
+                openCalendar: "Open Google Calendar",
                 contact: "Contact Admin",
-                pageTitle: "Computer Reservations",
+                pageTitle: "Lei Lab Computer Reservations",
                 makeReservation: "Make Reservation",
                 available: "Available",
                 inUse: "In Use",
@@ -641,14 +635,14 @@
                 month: "Month",
                 statusAvailable: "Available",
                 statusBusy: "In Use",
-                statusMaintenance: "Maintenance"
+                statusMaintenance: "Maintenance",
+                tip1: "📝 Click computer card to view its calendar",
+                tip2: "🔄 Refresh page to update status"
             },
             ja: {
-                reservations: "予約",
-                googleCalendar: "Googleカレンダー",
-                howToUse: "使い方",
+                openCalendar: "Googleカレンダーを開く",
                 contact: "管理者に連絡",
-                pageTitle: "コンピューター予約",
+                pageTitle: "Lei Lab コンピューター予約",
                 makeReservation: "予約する",
                 available: "利用可能",
                 inUse: "使用中",
@@ -659,7 +653,9 @@
                 month: "月",
                 statusAvailable: "利用可能",
                 statusBusy: "使用中",
-                statusMaintenance: "メンテナンス中"
+                statusMaintenance: "メンテナンス中",
+                tip1: "📝 コンピューターカードをクリックしてカレンダーを表示",
+                tip2: "🔄 ページを更新してステータスを更新"
             }
         };
         
