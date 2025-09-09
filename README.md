@@ -54,13 +54,6 @@
 - **Advance booking**: 30 minutes | **事前予約**: 30分前
 - **Cancellation**: 15 minutes notice | **キャンセル**: 15分前通知
 
-## 📞 Support | サポート
-
-**Contact Admin | 管理者連絡:**
-- 📧 Email: admin@lab.titech.ac.jp
-- 🏢 Office: Lab Room XXX
-- ☎️ Phone: 03-XXXX-XXXX
-
 ## 🔧 Tech Stack | 技術スタック
 
 - **Frontend**: HTML5, CSS3, JavaScript
