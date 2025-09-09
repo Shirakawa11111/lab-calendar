@@ -366,37 +366,31 @@
             display: block;
         }
         
-        /* Stats Section */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        
-        .stat-card {
+        /* Instructions Section */
+        .instructions-card {
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
-        .stat-label {
+        .instructions-card h2 {
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            font-size: 18px;
+        }
+        
+        .guide-content div {
+            padding: 8px 0;
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+        
+        .computer-desc {
             font-size: 13px;
             color: var(--text-gray);
-            margin-bottom: 8px;
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 4px;
-        }
-        
-        .stat-change {
-            font-size: 13px;
-            color: var(--success-color);
+            margin-top: 4px;
         }
         
         @media (max-width: 1024px) {
@@ -490,85 +484,47 @@
             
             <!-- Content -->
             <div class="content">
-                <!-- Stats -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label" data-lang="available">Available</div>
-                        <div class="stat-value" id="availableCount">3</div>
-                        <div class="stat-change">↑ 2 from yesterday</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label" data-lang="inUse">In Use</div>
-                        <div class="stat-value" id="inUseCount">2</div>
-                        <div class="stat-change">→ Same as yesterday</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label" data-lang="todayReservations">Today's Reservations</div>
-                        <div class="stat-value" id="todayCount">8</div>
-                        <div class="stat-change">↑ 3 from last week</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label" data-lang="weeklyHours">Weekly Hours</div>
-                        <div class="stat-value" id="weeklyHours">127</div>
-                        <div class="stat-change">↑ 15% increase</div>
+                <!-- Instructions -->
+                <div class="instructions-card">
+                    <h2 data-lang="quickGuide">📋 Quick Guide</h2>
+                    <div class="guide-content">
+                        <div data-lang="instruction1">✅ Click on a computer card below to view its calendar</div>
+                        <div data-lang="instruction2">✅ Click "Make Reservation" to book time slots</div>
+                        <div data-lang="instruction3">✅ Use format: [Your Name] - [Purpose] when booking</div>
                     </div>
                 </div>
                 
-                <!-- Calendar Controls -->
-                <div class="calendar-controls">
-                    <div class="date-navigation">
-                        <button class="nav-btn" onclick="previousDay()">←</button>
-                        <div class="date-display" id="currentDate">Friday, November 16, 2024</div>
-                        <button class="nav-btn" onclick="nextDay()">→</button>
-                    </div>
-                    <div class="view-tabs">
-                        <button class="view-tab active" onclick="setView('day')" data-lang="day">Day</button>
-                        <button class="view-tab" onclick="setView('week')" data-lang="week">Week</button>
-                        <button class="view-tab" onclick="setView('month')" data-lang="month">Month</button>
-                    </div>
-                </div>
-                
-                <!-- Computer Status Cards -->
+                <!-- Computer Selection -->
                 <div class="computers-grid">
                     <div class="computer-card selected" onclick="selectComputer(1)">
                         <div class="computer-header">
-                            <span class="computer-name">Computer 1</span>
-                            <span class="status-dot status-available"></span>
+                            <span class="computer-name">💻 Computer 1</span>
                         </div>
-                        <div class="computer-status" data-lang="statusAvailable">Available</div>
-                        <div class="current-user">-</div>
+                        <div class="computer-desc">Lei Lab - Computer 1</div>
                     </div>
                     <div class="computer-card" onclick="selectComputer(2)">
                         <div class="computer-header">
-                            <span class="computer-name">Computer 2</span>
-                            <span class="status-dot status-busy"></span>
+                            <span class="computer-name">💻 Computer 2</span>
                         </div>
-                        <div class="computer-status" data-lang="statusBusy">In Use</div>
-                        <div class="current-user">John Doe</div>
+                        <div class="computer-desc">Lei Lab - Computer 2</div>
                     </div>
                     <div class="computer-card" onclick="selectComputer(3)">
                         <div class="computer-header">
-                            <span class="computer-name">Computer 3</span>
-                            <span class="status-dot status-available"></span>
+                            <span class="computer-name">💻 Computer 3</span>
                         </div>
-                        <div class="computer-status" data-lang="statusAvailable">Available</div>
-                        <div class="current-user">-</div>
+                        <div class="computer-desc">Lei Lab - Computer 3</div>
                     </div>
                     <div class="computer-card" onclick="selectComputer(4)">
                         <div class="computer-header">
-                            <span class="computer-name">Computer 4</span>
-                            <span class="status-dot status-busy"></span>
+                            <span class="computer-name">💻 Computer 4</span>
                         </div>
-                        <div class="computer-status" data-lang="statusBusy">In Use</div>
-                        <div class="current-user">Jane Smith</div>
+                        <div class="computer-desc">Lei Lab - Computer 4</div>
                     </div>
                     <div class="computer-card" onclick="selectComputer(5)">
                         <div class="computer-header">
-                            <span class="computer-name">Computer 5</span>
-                            <span class="status-dot status-maintenance"></span>
+                            <span class="computer-name">💻 Computer 5</span>
                         </div>
-                        <div class="computer-status" data-lang="statusMaintenance">Maintenance</div>
-                        <div class="current-user">-</div>
+                        <div class="computer-desc">Lei Lab - Computer 5</div>
                     </div>
                 </div>
                 
@@ -626,16 +582,10 @@
                 contact: "Contact Admin",
                 pageTitle: "Lei Lab Computer Reservations",
                 makeReservation: "Make Reservation",
-                available: "Available",
-                inUse: "In Use",
-                todayReservations: "Today's Reservations",
-                weeklyHours: "Weekly Hours",
-                day: "Day",
-                week: "Week",
-                month: "Month",
-                statusAvailable: "Available",
-                statusBusy: "In Use",
-                statusMaintenance: "Maintenance",
+                quickGuide: "📋 Quick Guide",
+                instruction1: "✅ Click on a computer card below to view its calendar",
+                instruction2: "✅ Click 'Make Reservation' to book time slots",
+                instruction3: "✅ Use format: [Your Name] - [Purpose] when booking",
                 tip1: "📝 Click computer card to view its calendar",
                 tip2: "🔄 Refresh page to update status"
             },
@@ -644,16 +594,10 @@
                 contact: "管理者に連絡",
                 pageTitle: "Lei Lab コンピューター予約",
                 makeReservation: "予約する",
-                available: "利用可能",
-                inUse: "使用中",
-                todayReservations: "本日の予約",
-                weeklyHours: "週間利用時間",
-                day: "日",
-                week: "週",
-                month: "月",
-                statusAvailable: "利用可能",
-                statusBusy: "使用中",
-                statusMaintenance: "メンテナンス中",
+                quickGuide: "📋 使い方ガイド",
+                instruction1: "✅ 下のコンピューターカードをクリックしてカレンダーを表示",
+                instruction2: "✅ '予約する'をクリックして時間を予約",
+                instruction3: "✅ 予約時は [名前] - [用途] の形式で入力",
                 tip1: "📝 コンピューターカードをクリックしてカレンダーを表示",
                 tip2: "🔄 ページを更新してステータスを更新"
             }
@@ -698,52 +642,10 @@
             document.getElementById('calendar' + computerNum).classList.add('active');
         }
         
-        // Date navigation
-        function updateDateDisplay() {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const today = new Date();
-            const dateStr = currentLanguage === 'ja' 
-                ? today.toLocaleDateString('ja-JP', options)
-                : today.toLocaleDateString('en-US', options);
-            document.getElementById('currentDate').textContent = dateStr;
-        }
-        
-        function previousDay() {
-            // Implement calendar navigation
-            console.log('Previous day');
-        }
-        
-        function nextDay() {
-            // Implement calendar navigation
-            console.log('Next day');
-        }
-        
-        function setView(view) {
-            document.querySelectorAll('.view-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update calendar view mode
-            // This would need Google Calendar API integration for full functionality
-            console.log('View changed to:', view);
-        }
-        
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            updateDateDisplay();
-            
-            // Update stats periodically
-            setInterval(() => {
-                // This would fetch real data from your backend
-                updateStats();
-            }, 60000); // Update every minute
+            console.log('Lei Lab Calendar System loaded');
         });
-        
-        function updateStats() {
-            // Placeholder for real-time updates
-            // Would connect to Google Calendar API to get actual data
-        }
     </script>
 </body>
 </html>
